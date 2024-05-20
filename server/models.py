@@ -11,3 +11,48 @@ metadata = MetaData(naming_convention={
 db = SQLAlchemy(metadata=metadata)
 
 # write your models here!
+
+class User (db.Model):
+    __tablename__  = 'users_table'
+
+    id = db.Column(db.Integer, primary_key=True)
+    is_seller = db.Column(db.Boolean, nullable=False)
+    cc_numbers = db.Column(db.Integer, unique=True) 
+    cc_pin = db.Column(db.Integer, unique=True) 
+    first_name = db.Column(db.String, nullable=False)
+    last_name = db.Column(db.String, nullable=False)
+    username = db.Column(db.String, unique=True, nullable=False)
+    address = db.Column(db.String, nullable=False)
+    # email = db.Column(db.String, nullable=False)
+
+class Product(db.Model):
+    __tablename__ = 'products_table'
+
+    id = db.Column(db.Integer, primary_key=True)
+    product_name = db.Column(db.String, nullable=False)
+    category = db.Column(db.String, nullable=False)
+    # is_sold_out = db.Column(db.Boolean, nullable=False)
+    created_at = db.Column(db.DateTime, server_default=db.func.now())
+    price = db.Column(db.Integer, nullable=False)
+    page_views = db.Column(db.Integer)
+    inventory = db.Column(db.Integer, nullable=False)
+
+class Order(db.Model):
+    __tablename__ = 'orders_table'
+
+    id = db.Column(db.Integer, primary_key=True)
+    product_id = db.Column(db.Integer, db.ForeignKey('products_table.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('users_table.id'))
+
+class Comment(db.Model):
+    __tablename__ = 'comments_table'
+    
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users_table.id'))
+    content = db.Column(db.String, nullable=False)
+    created_at = db.Column(db.DateTime, server_default=db.func.now())
+
+
+
+
+
