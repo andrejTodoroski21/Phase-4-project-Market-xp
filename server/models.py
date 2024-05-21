@@ -25,12 +25,12 @@ class User (db.Model):
     address = db.Column(db.String, nullable=False)
     # email = db.Column(db.String, nullable=False)
 
-class Product(db.Model):
+class Item(db.Model):
     __tablename__ = 'products_table'
 
     id = db.Column(db.Integer, primary_key=True)
-    product_name = db.Column(db.String, nullable=False)
-    product_img = db.Column(db.String, nullable=False)
+    item_name = db.Column(db.String, nullable=False)
+    item_img = db.Column(db.String, nullable=False)
     category = db.Column(db.String, nullable=False)
     # is_sold_out = db.Column(db.Boolean, nullable=False)
     created_at = db.Column(db.DateTime, server_default=db.func.now())
@@ -42,8 +42,10 @@ class Order(db.Model):
     __tablename__ = 'orders_table'
 
     id = db.Column(db.Integer, primary_key=True)
-    product_id = db.Column(db.Integer, db.ForeignKey('products_table.id'))
+    item_id = db.Column(db.Integer, db.ForeignKey('products_table.id'))
     user_id = db.Column(db.Integer, db.ForeignKey('users_table.id'))
+    price_sold = db.Column(db.Integer )
+    sold_at = db.Column(db.DateTime, server_default=db.func.now())
 
 class Comment(db.Model):
     __tablename__ = 'comments_table'
