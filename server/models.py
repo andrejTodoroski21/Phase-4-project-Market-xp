@@ -12,7 +12,7 @@ db = SQLAlchemy(metadata=metadata)
 
 # write your models here!
 
-class User (db.Model):
+class User (db.Model, SerializerMixin):
     __tablename__  = 'users_table'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -23,9 +23,17 @@ class User (db.Model):
     last_name = db.Column(db.String, nullable=False)
     username = db.Column(db.String, unique=True, nullable=False)
     address = db.Column(db.String, nullable=False)
+    _hashed_password = db.Column(db.String)
     # email = db.Column(db.String, nullable=False)
 
-class Item(db.Model):
+    orders = db.relationship('Order', back_populates='user')
+    items = db.relationship('Item', secondary='orders_table', back_populates='user')
+
+    purchased_items = association_proxy('orders', 'item')
+    serialize_rules = ('-orders.user', '-items.users')
+
+
+class Item(db.Model, SerializerMixin):
     __tablename__ = 'products_table'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -38,7 +46,14 @@ class Item(db.Model):
     page_views = db.Column(db.Integer)
     inventory = db.Column(db.Integer, nullable=False)
 
-class Order(db.Model):
+    orders = db.relationship('Order', back_populates='item')
+    users = db.relationship('User', secondary='orders_table', back_populates='items')
+
+    buyers = association_proxy('orders', 'user')
+    serialize_rules = ('-orders.item', '-users.items')
+
+
+class Order(db.Model, SerializerMixin):
     __tablename__ = 'orders_table'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -47,13 +62,19 @@ class Order(db.Model):
     price_sold = db.Column(db.Integer )
     sold_at = db.Column(db.DateTime, server_default=db.func.now())
 
-class Comment(db.Model):
+    user = db.relationship("User", back_populates="orders")
+    item = db.relationship("Item", back_populates="orders")
+    serialize_rules = ('-user.orders', '-item.orders')
+
+class Comment(db.Model, SerializerMixin):
     __tablename__ = 'comments_table'
     
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users_table.id'))
     content = db.Column(db.String, nullable=False)
     created_at = db.Column(db.DateTime, server_default=db.func.now())
+
+    serialize_rules = ('-user.comments')
 
 
 
