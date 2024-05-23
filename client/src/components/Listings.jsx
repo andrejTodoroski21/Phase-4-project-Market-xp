@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import Items from "./Items"
 import Comments from './Comments'
-import "xp.css/dist/XP.css";
+//import "xp.css/dist/XP.css";
 
 function Listings() {
 
@@ -19,7 +19,7 @@ function Listings() {
 
     return (
         <>
-            <h1>Listings</h1>
+            <h2>Listings</h2>
         
             {mappedProducts}
                 <Comments />

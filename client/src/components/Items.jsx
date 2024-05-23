@@ -1,7 +1,7 @@
 function Items({product}) {
 
     return (
-        <div>
+        <div className="content-container">
             <div  style={{ width: 300, display: "flex", flexDirection: "column", alignItems: "center" }} className="window">
                 <div style={{ width: 290, height: 27, color:'white'}} className="title-bar">
                     <h4>{product.item_name}</h4>
@@ -17,6 +17,13 @@ function Items({product}) {
                     <h5>{product.description}</h5>
                     <p>{product.category} - Inventory: 5 - Page Views: 5</p>
                     <p>{product.created_at}</p>
+                </div>
+                <div className="buttons">
+                    <button onClick={console.log('clicked')}>Add to Cart</button>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <button onClick={console.log('clicked')}>Show Comments</button>
+                    <br></br>
+                    <br></br>
                 </div>
             </div>
             <br></br>

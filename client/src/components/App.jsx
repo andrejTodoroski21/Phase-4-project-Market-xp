@@ -1,6 +1,7 @@
 import { Outlet } from 'react-router-dom'
 import React from 'react'
 import Navbar from '../Navbar.jsx'
+import icon from '../assets/starticon.png'
 
 function App() {
 
@@ -13,6 +14,9 @@ function App() {
         <Outlet />
       </div>
 
+      <div className="start-menu-bar">
+        <img height='30px' src={icon}/>
+      </div>
     </div>
   )
 
