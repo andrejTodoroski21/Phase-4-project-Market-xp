@@ -50,23 +50,46 @@ def create_user():
 @app.get('/api/get-session')
 def get_session():
     user = User.query.where(User.id == session.get('user_id')).first()
+    if user:
+        return user.to_dict(), 200
+    else:
+        return {}, 204
 
 # LOGIN AND LOGOUT
 @app.post('/api/login')
 def login():
-    User.query.where(User.username == request.json.get('username')).first()
-    if user and bcrypt.check_password_hash(user._hashed_password, request.json('password')):
+    user = User.query.where(User.username == request.json.get('user')).first()
+    if user and bcrypt.check_password_hash(user._hashed_password, request.json.get('password')):
         session['user_id'] = user.id
         return user.to_dict(), 201
     else:
         return {'error': 'username or password was not invalid'}, 401
 
-
-
 @app.delete('/api/logout')
 def logout():
     session.pop('user_id')
     return {}, 204
+
+# GET LISTINGS
+@app.get('/api/items')
+def get_items():
+    return [i.to_dict() for i in Item.query.all()], 200
+
+# POST LISTINGS
+@app.post('/api/items')
+def post_items():
+    try:
+        data = request.json
+        new_listing = Item(**data)
+        db.session.add(new_listing)
+        db.session.commit()
+        return jsonify( new_listing.to_dict() ), 201
+    except Exception as e:
+        return jsonify( {'error': str(e)} ), 406
+
+
+
+# DELETE AND PATCH
 
 
 # write your routes here! 
