@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 import os
-from flask import Flask, request
+from flask import Flask, request, session
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_cors import CORS
@@ -38,8 +38,10 @@ def users_by_id(id):
 @app.post('/api/users')
 def create_user():
     try:
-        new_user = User(username=request.json['username'])
-        new_user._hashed_password = bcrypt.generate_password_hash(request.json['password']).decode('utf-8')
+        # first_name = User(first_name = request.json['first_name'])
+        # last_name = User(last_name = request.json['last_name'])
+        new_user = User(username=request.json['username'], first_name = request.json['first_name'], last_name = request.json['last_name'])
+        new_user._hashed_password = bcrypt.generate_password_hash(request.json['_hashed_password']).decode('utf-8')
         db.session.add(new_user)
         db.session.commit()
         session['user_id'] = new_user.id
