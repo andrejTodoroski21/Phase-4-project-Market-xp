@@ -1,9 +1,9 @@
 function Items({product}) {
 
     return (
-        <div className="content-container">
-            <div  style={{ width: 300, display: "flex", flexDirection: "column", alignItems: "center" }} className="window">
-                <div style={{ width: 290, height: 27, color:'white'}} className="title-bar">
+        
+            <div  style={{ width: 400, display: "flex", flexDirection: "column", alignItems: "center" }} className="window">
+                <div style={{ width:390, height: 27, color:'white'}} className="title-bar">
                     <h4>{product.item_name}</h4>
                     <div className="title-bar-controls">
                         <button aria-label="Minimize" />
@@ -26,9 +26,6 @@ function Items({product}) {
                     <br></br>
                 </div>
             </div>
-            <br></br>
-            <br></br>
-        </div>
     )
 }
 

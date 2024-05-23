@@ -18,12 +18,14 @@ function Listings() {
     const mappedProducts = products.map(p => <Items key={p.id} product={p}/>)
 
     return (
-        <>
-            <h2>Listings</h2>
-        
-            {mappedProducts}
-                <Comments />
-        </>
+        <h2>Listings
+            <br></br>
+            <br></br>
+            <div className="content-container">
+                {mappedProducts}
+                    <Comments />
+            </div>
+        </h2>
     )
 }
 
