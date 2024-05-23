@@ -1,27 +1,26 @@
-import React, {useEffect, useState} from "react";
-//const [product, setProduct] = useState('')
-
-function Items() {
-
-    /* useEffect(()=> {
-        fetch('')
-        .then(response => {
-            if (response.status === 200) {
-                response.json()
-                .then(data => setProduct(data))
-        }
-        })
-    }, []) */
+function Items({product}) {
 
     return (
         <div>
-            <h2>Item Name</h2>
-            <img src={'https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Nintendo_64.jpg/640px-Nintendo_64.jpg'}/>
-            <h3>Description: test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test</h3>
-            <p>*Category* - Inventory: 5 - Page Views: 5</p>
-            <p>*time posted*</p>
-
-            
+            <div  style={{ width: 300, display: "flex", flexDirection: "column", alignItems: "center" }} className="window">
+                <div style={{ width: 290, height: 27, color:'white'}} className="title-bar">
+                    <h4>{product.item_name}</h4>
+                    <div className="title-bar-controls">
+                        <button aria-label="Minimize" />
+                        <button aria-label="Maximize" />
+                        <button aria-label="Close" />
+                    </div>
+                </div>
+                <div style={{ textAlign: "center" }}>
+                    <br></br>
+                    <img style={{ margin: "0 auto" }} width='250px' src={product.item_img}/>
+                    <h5>{product.description}</h5>
+                    <p>{product.category} - Inventory: 5 - Page Views: 5</p>
+                    <p>{product.created_at}</p>
+                </div>
+            </div>
+            <br></br>
+            <br></br>
         </div>
     )
 }

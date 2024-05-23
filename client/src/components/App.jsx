@@ -7,7 +7,7 @@ function App() {
   return (
     <div className='App'>
       <Navbar />
-      <h1>"Website Title"</h1>
+      <h3>"Website Title"</h3>
 
       <div>
         <Outlet />
