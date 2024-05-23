@@ -16,13 +16,13 @@ class User (db.Model, SerializerMixin):
     __tablename__  = 'users_table'
 
     id = db.Column(db.Integer, primary_key=True)
-    is_seller = db.Column(db.Boolean, nullable=False)
-    cc_numbers = db.Column(db.Integer, unique=True) 
-    cc_pin = db.Column(db.Integer, unique=True) 
+    # is_seller = db.Column(db.Boolean, nullable=False)
+    # cc_numbers = db.Column(db.Integer, unique=True) 
+    # cc_pin = db.Column(db.Integer, unique=True) 
     first_name = db.Column(db.String, nullable=False)
     last_name = db.Column(db.String, nullable=False)
     username = db.Column(db.String, unique=True, nullable=False)
-    address = db.Column(db.String, nullable=False)
+    # address = db.Column(db.String, nullable=False)
     _hashed_password = db.Column(db.String)
     # email = db.Column(db.String, nullable=False)
 
