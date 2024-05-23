@@ -5,6 +5,8 @@ import Home from './components/Home.jsx'
 import Listings from './components/Listings.jsx'
 import Profile from './components/Profile.jsx'
 import About from './components/About.jsx'
+import Login from './components/UserPanel/Login.jsx'
+import Signup from './components/UserPanel/Signup.jsx'
 
 
 import './index.css'
@@ -32,6 +34,14 @@ const routes = [
       {
         path: "about",
         element: <About />
+      },
+      {
+        path: "login",
+        element: <Login />
+      },
+      {
+        path: 'signup',
+        element: <Signup />
       }
     ]
   }
