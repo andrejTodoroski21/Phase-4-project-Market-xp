@@ -27,23 +27,24 @@ class User (db.Model, SerializerMixin):
     # email = db.Column(db.String, nullable=False)
 
     orders = db.relationship('Order', back_populates='user')
-    items = db.relationship('Item', secondary='orders_table', back_populates='user')
+    items = db.relationship('Item', secondary='orders_table', back_populates='users')
 
     purchased_items = association_proxy('orders', 'item')
     serialize_rules = ('-orders.user', '-items.users')
 
 
 class Item(db.Model, SerializerMixin):
-    __tablename__ = 'products_table'
+    __tablename__ = 'items_table'
 
     id = db.Column(db.Integer, primary_key=True)
     item_name = db.Column(db.String, nullable=False)
     item_img = db.Column(db.String, nullable=False)
     category = db.Column(db.String, nullable=False)
+    description = db.Column(db.String)
     # is_sold_out = db.Column(db.Boolean, nullable=False)
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     price = db.Column(db.Integer, nullable=False)
-    page_views = db.Column(db.Integer)
+    page_views = db.Column(db.Integer, server_default=None)
     inventory = db.Column(db.Integer, nullable=False)
 
     orders = db.relationship('Order', back_populates='item')
@@ -57,7 +58,7 @@ class Order(db.Model, SerializerMixin):
     __tablename__ = 'orders_table'
 
     id = db.Column(db.Integer, primary_key=True)
-    item_id = db.Column(db.Integer, db.ForeignKey('products_table.id'))
+    item_id = db.Column(db.Integer, db.ForeignKey('items_table.id'))
     user_id = db.Column(db.Integer, db.ForeignKey('users_table.id'))
     price_sold = db.Column(db.Integer )
     sold_at = db.Column(db.DateTime, server_default=db.func.now())
