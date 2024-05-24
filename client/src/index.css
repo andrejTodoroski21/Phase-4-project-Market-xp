@@ -46,8 +46,16 @@ body{
 }
 
 .content-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(25%, 1fr));
-  gap: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content:space-around;
   justify-items: center;
+}
+
+#listing_window {
+  margin-bottom: 7em;
+}
+
+#title_window {
+  width: 20%;
 }
