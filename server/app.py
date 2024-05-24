@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 import os
-from flask import Flask, request, session
+from flask import Flask, request, session, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_cors import CORS
@@ -90,9 +90,53 @@ def post_items():
         return jsonify( {'error': str(e)} ), 406
 
 
-
 # DELETE AND PATCH
 
+# GET COMMENTS
+@app.get('/api/comments')
+def get_comments():
+    return [c.to_dict() for c in Comment.query.all()], 200
+
+# POST COMMENTS
+@app.post('/api/comments')
+def post_comments():
+    try:
+        data = request.json
+        new_comment = Comment(**data)
+        new_comment.user_id = session.get('user_id')
+        db.session.add(new_comment)
+        db.session.commit()
+        return jsonify( new_comment.to_dict() ), 201
+    except Exception as e:
+        return jsonify( {'error': str(e)} ), 406
+
+
+# PATCH AND DELETE COMMENTS
+@app.patch('/api/comments/<int:id>')
+def patch_comments(id):
+    try:
+        comment = Comment.query.where(Comment.id == id).first()
+        if comment:
+            comment.comment = request.json.get('comment')
+            db.session.commit()
+            return comment.to_dict(), 200
+        else:
+            return {'error': 'Not found'}, 404
+    except Exception as e:
+        return {'error': str(e)}, 406
+
+@app.delete('/api/comments/<int:id>')
+def delete_comments(id):
+    try:
+        comment = Comment.query.where(Comment.id == id).first()
+        if comment:
+            db.session.delete(comment)
+            db.session.commit()
+            return {}, 204
+        else:
+            return {'error': 'Not found'}, 404
+    except Exception as e:
+        return {'error': str(e)}, 406
 
 # write your routes here! 
 # all routes should start with '/api' to account for the proxy

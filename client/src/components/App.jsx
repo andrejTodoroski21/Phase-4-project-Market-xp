@@ -5,6 +5,8 @@ import icon from '../assets/icon-revised.png'
 
 function App() {
 
+  const [currentUser, setCurrentUser] = useState(null);
+
   const [currentTime, setCurrentTime] = useState(new Date());
 
   useEffect(() => {
@@ -21,7 +23,8 @@ function App() {
       <h3>"Website Title"</h3>
 
       <div>
-        <Outlet />
+        <Outlet context={{currentUser, setCurrentUser}}/>
+
       </div>
 
       <div className="start-menu-bar">
