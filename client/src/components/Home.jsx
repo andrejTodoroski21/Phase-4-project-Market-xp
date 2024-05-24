@@ -4,11 +4,7 @@ function Home () {
     const{currentUser} =useOutletContext()
     return (
         <>
-            <h2>Welcome to our website</h2>
-
-            <br/>
-            <br/>
-
+            <img src='' />
             <h3 id="site-directory">Site Directory:</h3>
             <Link to="/listings"><h3>Current Listings</h3></Link>
                 <div>
