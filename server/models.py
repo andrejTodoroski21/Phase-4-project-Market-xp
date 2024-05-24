@@ -30,7 +30,7 @@ class User (db.Model, SerializerMixin):
     items = db.relationship('Item', secondary='orders_table', back_populates='users')
 
     purchased_items = association_proxy('orders', 'item')
-    serialize_rules = ('-orders.user', '-items.users')
+    serialize_rules = ('-orders.user', '-items.users',)
 
 
 class Item(db.Model, SerializerMixin):
@@ -44,14 +44,14 @@ class Item(db.Model, SerializerMixin):
     # is_sold_out = db.Column(db.Boolean, nullable=False)
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     price = db.Column(db.Integer, nullable=False)
-    page_views = db.Column(db.Integer, server_default=None)
+    # page_views = db.Column(db.Integer, server_default=None) V2
     inventory = db.Column(db.Integer, nullable=False)
 
     orders = db.relationship('Order', back_populates='item')
     users = db.relationship('User', secondary='orders_table', back_populates='items')
 
     buyers = association_proxy('orders', 'user')
-    serialize_rules = ('-orders.item', '-users.items')
+    serialize_rules = ('-orders.item', '-users.items',)
 
 
 class Order(db.Model, SerializerMixin):
@@ -65,7 +65,7 @@ class Order(db.Model, SerializerMixin):
 
     user = db.relationship("User", back_populates="orders")
     item = db.relationship("Item", back_populates="orders")
-    serialize_rules = ('-user.orders', '-item.orders')
+    serialize_rules = ('-user.orders', '-item.orders',)
 
 class Comment(db.Model, SerializerMixin):
     __tablename__ = 'comments_table'
@@ -75,7 +75,7 @@ class Comment(db.Model, SerializerMixin):
     content = db.Column(db.String, nullable=False)
     created_at = db.Column(db.DateTime, server_default=db.func.now())
 
-    serialize_rules = ('-user.comments')
+    serialize_rules = ('-user.comments',)
 
 
 
