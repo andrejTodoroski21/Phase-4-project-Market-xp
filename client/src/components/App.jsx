@@ -19,8 +19,11 @@ function App() {
 
   return (
     <div className='App'>
-      <Navbar />
-      <h3>"Website Title"</h3>
+      <h1 id="title_window" className="window">"Website Title"
+        <div className='windowBody'>
+          <Navbar />
+        </div>
+      </h1>
 
       <div>
         <Outlet context={{currentUser, setCurrentUser}}/>
