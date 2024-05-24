@@ -1,7 +1,8 @@
 import { useState } from 'react'
+import { useOutletContext } from 'react-router-dom'
 
-function Signup({setCurrentUser}) {
-
+function Signup() {
+  const { setCurrentUser } = useOutletContext()
   // STATE //
 
   const [username, setUsername] = useState('')

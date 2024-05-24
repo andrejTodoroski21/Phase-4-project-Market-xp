@@ -1,7 +1,7 @@
-import { Link } from 'react-router-dom'
+import { Link, useOutletContext } from 'react-router-dom'
 
 function Home () {
-    
+    const{currentUser} =useOutletContext()
     return (
         <>
             <h2>Welcome to our website</h2>
