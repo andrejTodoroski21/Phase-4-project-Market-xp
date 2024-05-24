@@ -10,7 +10,7 @@ function Home () {
                 <div>
                     <p>**This p-tag text is currently inside a div that will display the top-5 recent listings</p>
                 </div>
-            
+
             <br/>
 
             <Link to="/profile"><h3>Profile</h3></Link>
