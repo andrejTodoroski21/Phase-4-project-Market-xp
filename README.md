@@ -15,8 +15,6 @@ to start the backend server:
 
 
 
-
-
 To install and run app front end:
 
 >>> npm install --prefix client

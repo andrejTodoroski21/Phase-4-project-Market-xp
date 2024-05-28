@@ -1,5 +1,5 @@
 
-function Comments() {
+function Comments({comment}) {
     return (
         <>
         </>
