@@ -56,38 +56,3 @@ function Items({ product }) {
 }
 
 export default Items;
-
-/*
-function Items({product, comments, showComments, toggleComments}) {
-
-    const mappedComments = comments.map(comment => <Comments key={comment.id} comment={comment} />);
-
-    return (
-        
-            <div  style={{ width: 400, display: "flex", flexDirection: "column", alignItems: "center" }} id="listing_window" className="window">
-                <div style={{ width:390, height: 27, color:'white'}} className="title-bar">
-                    <h4>{product.item_name}</h4>
-                    <div className="title-bar-controls">
-                        <button aria-label="Minimize" />
-                        <button aria-label="Maximize" />
-                        <button aria-label="Close" />
-                    </div>
-                </div>
-                <div style={{ textAlign: "center" }}>
-                    <br></br>
-                    <img style={{ margin: "0 auto" }} width='250px' src={product.item_img}/>
-                    <h5>{product.description}</h5>
-                    <p>{product.category} - Inventory: 1</p>
-                    <p>{product.created_at}</p>
-                </div>
-                <div className="buttons">
-                    <button onClick={() => console.log('Buy clicked for item:', product.id)}>Buy Item</button>
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                    <button onClick={toggleComments}>{showComments ? 'Show Details' : 'Show Comments'}</button>
-                    <br /><br />
-                    {showComments && <div>{mappedComments}</div>}
-                </div>
-            </div>
-    )
-}
-*/
