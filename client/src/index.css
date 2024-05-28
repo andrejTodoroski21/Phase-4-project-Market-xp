@@ -59,3 +59,23 @@ body{
 #title_window {
   width: 20%;
 }
+
+.icon-container {
+  margin-top: 10px;
+  margin-left: 10px;
+}
+
+.app-icon {
+  width: 60px;
+}
+
+.icon-text {
+  margin-left: 10px;
+}
+
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2em;
+}

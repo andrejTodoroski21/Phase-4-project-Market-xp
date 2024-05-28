@@ -15,7 +15,7 @@ function Items({product}) {
                     <br></br>
                     <img style={{ margin: "0 auto" }} width='250px' src={product.item_img}/>
                     <h5>{product.description}</h5>
-                    <p>{product.category} - Inventory: 5 - Page Views: 5</p>
+                    <p>{product.category} - Inventory: 1</p>
                     <p>{product.created_at}</p>
                 </div>
                 <div className="buttons">
