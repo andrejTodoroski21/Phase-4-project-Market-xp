@@ -60,7 +60,7 @@ def get_session():
 # LOGIN AND LOGOUT
 @app.post('/api/login')
 def login():
-    user = User.query.where(User.username == request.json.get('user')).first()
+    user = User.query.where(User.username == request.json.get('username')).first()
     if user and bcrypt.check_password_hash(user._hashed_password, request.json.get('password')):
         session['user_id'] = user.id
         return user.to_dict(), 201

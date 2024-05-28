@@ -1,9 +1,11 @@
 import { useState } from 'react'
+import {useOutletContext} from 'react-router-dom'
 
-function Login({ setCurrentUser }) {
+function Login() {
 
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
+  const {setCurrentUser} = useOutletContext()
 
   // SUBMIT EVENT
 
@@ -30,9 +32,21 @@ function Login({ setCurrentUser }) {
   // RENDER //
 
   return (
+
+    <div className ="window" style={{width: 300}}>
+  <div className="title-bar">
+    <div className="title-bar-text">Login</div>
+    <div className="title-bar-controls">
+      <button aria-label="Minimize"></button>
+      <button aria-label="Maximize"></button>
+      <button aria-label="Close"></button>
+    </div>
+  </div>
+  <div class="window-body">
+
     <form className='user-form' onSubmit={handleSubmit}>
 
-      <h2>Login</h2>
+      <h4>Login</h4>
 
       <input type="text"
       onChange={e => setUsername(e.target.value)}
@@ -51,6 +65,10 @@ function Login({ setCurrentUser }) {
       />
 
     </form>
+
+    </div>
+
+    </div>
   )
 
 }
