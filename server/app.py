@@ -7,7 +7,7 @@ from flask_cors import CORS
 from flask_bcrypt import Bcrypt
 
 
-from models import db, User, Item, Order, Comment
+from models import db, User, Item, Cart, Comment
 
 app = Flask(__name__)
 app.secret_key = os.environ.get('SECRET_KEY')
@@ -138,8 +138,57 @@ def delete_comments(id):
     except Exception as e:
         return {'error': str(e)}, 406
 
-# write your routes here! 
-# all routes should start with '/api' to account for the proxy
+@app.post('/api/cart')
+def add_to_cart():
+    try:
+        user_id = session.get('user_id')
+        if not user_id:
+            return jsonify({'error': 'User not logged in'}), 401
+        
+        data = request.json
+        item_id = data['item_id']
+        quantity = data.get('quantity', 1)
+
+        cart_item = Cart.query.filter_by(user_id=user_id, item_id=item_id).first()
+        if cart_item:
+            cart_item.quantity += quantity
+        else:
+            cart_item = Cart(user_id=user_id, item_id=item_id, quantity=quantity)
+            db.session.add(cart_item)
+        
+        db.session.commit()
+        return jsonify(cart_item.to_dict()), 201
+    except Exception as e:
+        return jsonify({'error': str(e)}), 406
+
+@app.get('/api/cart')
+def get_cart():
+    try:
+        user_id = session.get('user_id')
+        if not user_id:
+            return jsonify({'error': 'User not logged in'}), 401
+
+        cart_items = Cart.query.filter_by(user_id=user_id).all()
+        return jsonify([ci.to_dict() for ci in cart_items]), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 406
+
+@app.delete('/api/cart/<int:item_id>')
+def remove_from_cart(item_id):
+    try:
+        user_id = session.get('user_id')
+        if not user_id:
+            return jsonify({'error': 'User not logged in'}), 401
+
+        cart_item = Cart.query.filter_by(user_id=user_id, item_id=item_id).first()
+        if cart_item:
+            db.session.delete(cart_item)
+            db.session.commit()
+            return {}, 204
+        else:
+            return jsonify({'error': 'Item not found in cart'}), 404
+    except Exception as e:
+        return jsonify({'error': str(e)}), 406
 
 
 if __name__ == '__main__':

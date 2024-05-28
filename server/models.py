@@ -54,13 +54,14 @@ class Item(db.Model, SerializerMixin):
     serialize_rules = ('-orders.item', '-users.items',)
 
 
-class Order(db.Model, SerializerMixin):
+class Item(db.Model, SerializerMixin):
     __tablename__ = 'orders_table'
 
     id = db.Column(db.Integer, primary_key=True)
     item_id = db.Column(db.Integer, db.ForeignKey('items_table.id'))
     user_id = db.Column(db.Integer, db.ForeignKey('users_table.id'))
     price_sold = db.Column(db.Integer )
+    quantity = dbColumn(db.Integer)
     sold_at = db.Column(db.DateTime, server_default=db.func.now())
 
     user = db.relationship("User", back_populates="orders")

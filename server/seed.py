@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 from app import app
-from models import db, Item, User, Order
+from models import db, Item, User, Item
 from faker import Faker
 
 faker = Faker()
@@ -10,22 +10,22 @@ if __name__ == '__main__':
     with app.app_context():
         print("Seeding database...")
 
-        Order.query.delete()
+        Item.query.delete()
         User.query.delete()
         Item.query.delete()
 
         print("creating Orders...")
-        nintendo_64 = Order(price_sold= 120)
-        nintendo_3ds = Order(price_sold=80) 
-        eevee_plushie = Order(price_sold = 30)
-        cd_player = Order(price_sold=70)
-        carhartt_jacket = Order(price_sold=110)
-        orders = [nintendo_3ds, nintendo_64, eevee_plushie, cd_player, carhartt_jacket]
+        nintendo_64 = Item(price_sold= 120)
+        nintendo_3ds = Item(price_sold=80) 
+        eevee_plushie = Item(price_sold = 30)
+        cd_player = Item(price_sold=70)
+        carhartt_jacket = Item(price_sold=110)
+        items = [nintendo_3ds, nintendo_64, eevee_plushie, cd_player, carhartt_jacket]
 
         print("creating Users")
-        andrej = User(is_seller=False, first_name="Andrej", last_name="Todoroski", username = "Monke", address="123 blvd")
-        dan = User(is_seller=True, first_name="Dan", last_name="Castanheira", username = "Dannycast", address="broad st")
-        will = User(is_seller=False, first_name="Will", last_name="Metzler", username = "Willymet", address="23 blanch ct")
+        andrej = User(first_name="Andrej", last_name="Todoroski", username = "Monke")
+        dan = User(first_name="Dan", last_name="Castanheira", username = "Dannycast")
+        will = User(first_name="Will", last_name="Metzler", username = "Willymet")
         users = [will, dan, andrej]
 
         print("creating Items")
@@ -35,7 +35,7 @@ if __name__ == '__main__':
         cd_player= Item(item_name = "Sony Walkman", item_img = "https://i.ebayimg.com/images/g/xcAAAOSwr5tg6PCD/s-l1200.webp", category = "electronics",description = "classic walkman player if youre looking to collect a relic", price = 70, inventory = 5)
         carhartt_jacket = Item(item_name = "Carhartt Jacket", item_img = "https://i.ebayimg.com/images/g/BcUAAOSw2tBj6rHq/s-l1200.webp", category = "clothing", description = "a popular reliable jacket looks better the more worn out it is",price = 110, inventory = 8)
         items = [nintendo_3ds, nintendo_64, eevee_plushie, cd_player, carhartt_jacket]
-        db.session.add_all(orders)
+        db.session.add_all(carts)
         db.session.add_all(users)
         db.session.add_all(items)
         db.session.commit()
