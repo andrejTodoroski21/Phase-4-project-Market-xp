@@ -60,7 +60,7 @@ class Cart(db.Model, SerializerMixin):
     id = db.Column(db.Integer, primary_key=True)
     item_id = db.Column(db.Integer, db.ForeignKey('items_table.id'))
     user_id = db.Column(db.Integer, db.ForeignKey('users_table.id'))
-    price_sold = db.Column(db.Integer )
+    price_sold = db.Column(db.Integer)
     quantity = db.Column(db.Integer)
     sold_at = db.Column(db.DateTime, server_default=db.func.now())
 
