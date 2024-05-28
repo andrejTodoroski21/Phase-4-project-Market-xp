@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 454c88c7a873
+Revision ID: 1e9474699b6d
 Revises: 
-Create Date: 2024-05-28 15:21:37.294128
+Create Date: 2024-05-28 16:13:11.878017
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '454c88c7a873'
+revision = '1e9474699b6d'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -40,21 +40,21 @@ def upgrade():
     )
     op.create_table('carts_table',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('item_id', sa.Integer(), nullable=True),
-    sa.Column('user_id', sa.Integer(), nullable=True),
     sa.Column('price_sold', sa.Integer(), nullable=True),
     sa.Column('quantity', sa.Integer(), nullable=True),
     sa.Column('sold_at', sa.DateTime(), server_default=sa.text('(CURRENT_TIMESTAMP)'), nullable=True),
+    sa.Column('user_id', sa.Integer(), nullable=True),
+    sa.Column('item_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['item_id'], ['items_table.id'], name=op.f('fk_carts_table_item_id_items_table')),
     sa.ForeignKeyConstraint(['user_id'], ['users_table.id'], name=op.f('fk_carts_table_user_id_users_table')),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('comments_table',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('user_id', sa.Integer(), nullable=False),
-    sa.Column('item_id', sa.Integer(), nullable=False),
     sa.Column('content', sa.String(), nullable=False),
     sa.Column('created_at', sa.DateTime(), server_default=sa.text('(CURRENT_TIMESTAMP)'), nullable=True),
+    sa.Column('user_id', sa.Integer(), nullable=False),
+    sa.Column('item_id', sa.Integer(), nullable=False),
     sa.ForeignKeyConstraint(['item_id'], ['items_table.id'], name=op.f('fk_comments_table_item_id_items_table')),
     sa.ForeignKeyConstraint(['user_id'], ['users_table.id'], name=op.f('fk_comments_table_user_id_users_table')),
     sa.PrimaryKeyConstraint('id')
