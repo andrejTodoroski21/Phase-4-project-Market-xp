@@ -1,30 +1,25 @@
 import { Link, useOutletContext } from 'react-router-dom'
+import myComputer from '../assets/High-Res_XP_Icons/My Computer.ico'
+import myProfile from '../assets/High-Res_XP_Icons/My Profile Folder.ico'
+import aboutIcon from '../assets/High-Res_XP_Icons/Internet Properties.ico'
 
 function Home () {
     const{currentUser} =useOutletContext()
     return (
-        <>
-            <img src='' />
-            <h3 id="site-directory">Site Directory:</h3>
-            <Link to="/listings"><h3>Current Listings</h3></Link>
-                <div>
-                    <p>**This p-tag text is currently inside a div that will display the top-5 recent listings</p>
-                </div>
+        <div className='icon-container'>
+            <Link to="/listings"><img className='app-icon' src={myComputer} /></Link>
+            <p className='icon-text'>Listings</p>
+        
+            <br/>
+
+            <Link to="/profile"><img className='app-icon' src={myProfile} /></Link>
+            <p className='icon-text'>My Profile</p>
 
             <br/>
 
-            <Link to="/profile"><h3>Profile</h3></Link>
-                <div>
-                    <p>this p tag lives inside a div that will show a preview of the user's profile?</p>
-                </div>
-
-            <br/>
-
-            <Link to="/about"><h3>About</h3></Link>
-                <div>
-                    <p>inside div with preview of about section? ...or maybe we just keep this as a link</p>
-                </div>
-        </>
+            <Link to="/about"><img className='app-icon' src={aboutIcon} /></Link>
+            <p className='icon-text' >About</p>
+        </div>
     )
 }
 
