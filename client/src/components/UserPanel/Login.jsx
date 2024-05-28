@@ -1,9 +1,11 @@
 import { useState } from 'react'
+import {useOutletContext} from 'react-router-dom'
 
-function Login({ setCurrentUser }) {
+function Login({  }) {
 
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
+  const {setCurrentUser} = useOutletContext()
 
   // SUBMIT EVENT
 
