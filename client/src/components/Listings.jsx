@@ -23,7 +23,7 @@ function Listings() {
     console.log(products)
 
     const mappedProducts = products.map(p => <Items key={p.id} product={p}/>)
-    const mappedComments = products.map(p => <Comments key={p.id} comment={p}/>)
+    const mappedComments = comments.map(p => <Comments key={p.id} comment={p}/>)
 
     return (
         <div>
