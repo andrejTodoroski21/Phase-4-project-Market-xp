@@ -72,9 +72,13 @@ class Comment(db.Model, SerializerMixin):
     __tablename__ = 'comments_table'
     
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users_table.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('users_table.id'), nullable=False)
+    item_id = db.Column(db.Integer, db.ForeignKey('items_table.id'), nullable=False)
     content = db.Column(db.String, nullable=False)
     created_at = db.Column(db.DateTime, server_default=db.func.now())
+
+    user = db.relationship('User', backref=db.backref('comments', lazy=True))
+    item = db.relationship('Item', backref=db.backref('comments', lazy=True))
 
     serialize_rules = ('-user.comments',)
 
