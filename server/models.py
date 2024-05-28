@@ -28,6 +28,7 @@ class User (db.Model, SerializerMixin):
 
     carts = db.relationship('Cart', back_populates='user')
     items = db.relationship('Item', secondary='carts_table', back_populates='users')
+    comments = db.relationship('Comment', back_populates='user')
 
     purchased_items = association_proxy('carts', 'item')
     serialize_rules = ('-carts.user', '-items.users',)
@@ -75,6 +76,8 @@ class Comment(db.Model, SerializerMixin):
     user_id = db.Column(db.Integer, db.ForeignKey('users_table.id'))
     content = db.Column(db.String, nullable=False)
     created_at = db.Column(db.DateTime, server_default=db.func.now())
+
+    user = db.relationship("User", back_populates="comments")
 
     serialize_rules = ('-user.comments',)
 
