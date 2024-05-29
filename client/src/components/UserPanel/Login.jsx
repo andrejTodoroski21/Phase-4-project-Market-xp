@@ -1,15 +1,18 @@
 import { useState } from 'react'
 import {useOutletContext} from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
 
 function Login() {
 
   const [user, setUser] = useState('')
   const [password, setPassword] = useState('')
   const {setCurrentUser} = useOutletContext()
+  const navigate = useNavigate();
+
   // SUBMIT EVENT
 
   function handleSubmit(e) {
-    e.preventDefault()
+    e.preventDefault();
 
     fetch('/api/login', {
       method: 'POST',
@@ -17,15 +20,17 @@ function Login() {
         'Content-Type': 'application/json', 
         'Accept': 'application/json' 
       },
-      body: JSON.stringify({user, password})
+      body: JSON.stringify({ user, password })
     }).then(res => {
       if (res.ok) {
-        res.json()
-        .then(user => setCurrentUser(user))
+        res.json().then(user => {
+          setCurrentUser(user);
+          navigate('/home'); // Navigate to home on successful login
+        });
       } else {
-        alert('Invalid username or password')
+        alert('Invalid username or password');
       }
-    })
+    });
   }
 
   // RENDER //
