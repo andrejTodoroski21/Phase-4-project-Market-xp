@@ -104,13 +104,14 @@ def patch_items(id):
 @app.delete('/api/items/<int:id>')
 def delete_items(id):
     try:
+        user = User.query.where(User.id == session.get('user_id')).first()
         item = Item.query.where(Item.id == id).first()
-        if item:
+        if item.seller_id == user.id:
             db.session.delete(item)
             db.session.commit()
-            return {}, 204
+            return jsonify({'message':'your item has been deleted'}), 204
         else:
-            return {'error': 'Not found'}, 404
+            return {'error': 'you are not authorized'}, 404
     except Exception as e:
         return jsonify( {'error': str(e)} ), 406
 
