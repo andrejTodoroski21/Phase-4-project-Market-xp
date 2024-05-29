@@ -147,9 +147,12 @@ def delete_comments(id):
     try:
         comment = Comment.query.get(id)
         if comment:
-            db.session.delete(comment)
-            db.session.commit()
-            return {}, 204
+            if comment.user_id == session.get('user_id'):
+                db.session.delete(comment)
+                db.session.commit()
+                return {}, 204
+            else:
+                return {'error': 'You are not authorized to delete this comment'}, 403
         else:
             return {'error': 'Comment not found'}, 404
     except Exception as e:
