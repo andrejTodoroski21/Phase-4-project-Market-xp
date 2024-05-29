@@ -79,3 +79,23 @@ body{
   align-items: center;
   margin-top: 2em;
 }
+
+.comment-container {
+  border: solid, 2px, gray;
+  padding-top: 0.5em;
+  padding-bottom: 0.5;
+  padding-left: 1em;
+  padding-right: 1em;
+  margin-bottom: 10px;
+}
+
+#comment-delete {
+  margin-bottom: 3px;
+}
+
+.comment-box {
+  margin: 1em;
+  width: 25em;
+  height: 7em;
+  border: solid, 1px;
+}
