@@ -15,15 +15,10 @@ function Items({ product }) {
     };
 
     useEffect(() => {
-        if (!showDetails) {
-            fetchComments();
-        }
-    }, [showDetails]);
+        fetchComments();
+    }, []); // Empty dependency array to fetch comments only once when the component mounts
 
     const toggleDetails = () => {
-        if (!showDetails) {
-            fetchComments();
-        }
         setShowDetails(prevShowDetails => !prevShowDetails);
     };
 
@@ -55,6 +50,23 @@ function Items({ product }) {
         setShowCommentForm(prev => !prev);
     };
 
+    const deleteComment = (commentId) => {
+        fetch(`/api/comments/${commentId}`, {
+            method: 'DELETE'
+        })
+        .then(response => {
+            if (response.ok) {
+                setComments(comments.filter(comment => comment.id !== commentId));
+            } else {
+                alert("Error deleting comment");
+            }
+        })
+        .catch(error => {
+            console.error('Error deleting comment:', error);
+            alert("Error deleting comment");
+        });
+    };
+
     return (
         <div style={{ width: 400, display: "flex", flexDirection: "column", alignItems: "center" }} id="listing_window" className="window">
             <div style={{ width: 390, height: 27, color: 'white' }} className="title-bar">
@@ -77,7 +89,7 @@ function Items({ product }) {
                 ) : (
                     <>
                         <h3>Comments:</h3>
-                        {comments.map(comment => <Comments key={comment.id} comment={comment} />)}
+                        {comments.map(comment => <Comments key={comment.id} comment={comment} onDelete={deleteComment}/>)}
                         <div className='comment-buttons'>
                             <button onClick={showCommentForm ? handleCommentSubmit : toggleCommentForm}>
                                 {showCommentForm ? 'Submit' : 'Add a Comment'}

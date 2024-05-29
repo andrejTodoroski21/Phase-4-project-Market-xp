@@ -12,7 +12,7 @@ function Navbar () {
             &nbsp; &nbsp;
             <Link className='navbar' to="/about">About</Link>
             &nbsp; &nbsp;
-            <Link className='navbar' to="/newlisting">New Listings</Link>
+            <Link className='navbar' to="/newlisting">Add Listing</Link>
             &nbsp; &nbsp;
             <Link className='navbar' to="/login">Login</Link>
             &nbsp; &nbsp;
