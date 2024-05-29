@@ -12,6 +12,7 @@ import Signup from './components/UserPanel/Signup.jsx'
 import './index.css'
 
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import NewListing from './components/NewListing.jsx'
 
 //ROUTES
 const routes = [
@@ -42,7 +43,11 @@ const routes = [
       {
         path: 'signup',
         element: <Signup />
-      }
+      },
+      {
+        path: "newlisting",
+        element: <NewListing />
+      },
     ]
   }
 ]
