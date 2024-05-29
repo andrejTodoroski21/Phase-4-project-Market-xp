@@ -6,6 +6,9 @@ import aboutIcon from '../assets/High-Res_XP_Icons/Internet Properties.ico'
 function Home () {
     const{currentUser} =useOutletContext()
     return (
+
+    <div>
+         <h3>Welcome, {currentUser ? currentUser.username : 'Guest'}!</h3>
         <div className='icon-container'>
             <Link to="/listings"><img className='app-icon' src={myComputer} /></Link>
             <p className='icon-text'>Listings</p>
@@ -20,6 +23,7 @@ function Home () {
             <Link to="/about"><img className='app-icon' src={aboutIcon} /></Link>
             <p className='icon-text' >About</p>
         </div>
+     </div>
     )
 }
 
