@@ -95,7 +95,6 @@ function NewListing() {
     </div>
 
 
-   
 
    {/* ({ item_name, price, item_img, category, description, inventory}) */}
 

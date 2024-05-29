@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Comments from './Comments';
 
-function Items({ product }) {
+function Items({ product, currentUser }) {
     const [comments, setComments] = useState([]);
     const [showDetails, setShowDetails] = useState(true);
     const [commentText, setCommentText] = useState('');
@@ -16,7 +16,7 @@ function Items({ product }) {
 
     useEffect(() => {
         fetchComments();
-    }, []); // Empty dependency array to fetch comments only once when the component mounts
+    }, []); 
 
     const toggleDetails = () => {
         setShowDetails(prevShowDetails => !prevShowDetails);
@@ -89,7 +89,7 @@ function Items({ product }) {
                 ) : (
                     <>
                         <h3>Comments:</h3>
-                        {comments.map(comment => <Comments key={comment.id} comment={comment} onDelete={deleteComment}/>)}
+                        {comments.map(comment => (<Comments key={comment.id} comment={comment} currentUser={currentUser} onDelete={deleteComment}/>))}
                         <div className='comment-buttons'>
                             <button onClick={showCommentForm ? handleCommentSubmit : toggleCommentForm}>
                                 {showCommentForm ? 'Submit' : 'Add a Comment'}
