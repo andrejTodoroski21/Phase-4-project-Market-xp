@@ -1,10 +1,11 @@
 import { useState } from 'react'
+import {useOutletContext} from 'react-router-dom'
 
-function Login({ setCurrentUser }) {
+function Login() {
 
-  const [username, setUsername] = useState('')
+  const [user, setUser] = useState('')
   const [password, setPassword] = useState('')
-
+  const {setCurrentUser} = useOutletContext()
   // SUBMIT EVENT
 
   function handleSubmit(e) {
@@ -16,7 +17,7 @@ function Login({ setCurrentUser }) {
         'Content-Type': 'application/json', 
         'Accept': 'application/json' 
       },
-      body: JSON.stringify({username, password})
+      body: JSON.stringify({user, password})
     }).then(res => {
       if (res.ok) {
         res.json()
@@ -48,8 +49,8 @@ function Login({ setCurrentUser }) {
       <h2>Login</h2>
 
       <input type="text"
-      onChange={e => setUsername(e.target.value)}
-      value={username}
+      onChange={e => setUser(e.target.value)}
+      value={user}
       placeholder='username'
       />
 

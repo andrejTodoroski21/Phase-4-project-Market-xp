@@ -25,7 +25,7 @@ class User (db.Model, SerializerMixin):
     items = db.relationship('Item', back_populates='seller')
     comments = db.relationship('Comment', back_populates='user')
 
-    # purchased_items = association_proxy('carts', 'items')
+    purchased_items = association_proxy('carts', 'item')
     serialize_rules = ('-carts.user', '-items.seller', '-comments.user')
 
 
@@ -47,7 +47,7 @@ class Item(db.Model, SerializerMixin):
     comments = db.relationship('Comment', back_populates='item')
     carts = db.relationship('Cart', back_populates='items')
 
-    # buyers = association_proxy('cart', 'user')
+    buyers = association_proxy('cart', 'user')
     serialize_rules = ('-seller.items', '-comments.item', '-carts.items')
 
 
