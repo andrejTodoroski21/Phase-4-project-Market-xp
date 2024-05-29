@@ -33,6 +33,17 @@ function Signup() {
   // RENDER //
 
   return (
+
+    <div className="window" style={{width: 300 }}>
+    <div className="title-bar">
+      <div className="title-bar-text">Sign up</div>
+      <div className="title-bar-controls">
+            <button aria-label="Minimize" />
+            <button aria-label="Maximize" />
+            <button aria-label="Close" />
+        </div>
+    </div>
+    <div className="window-body">
     <form className='user-form' onSubmit={handleSubmit}>
 
       <h2>Signup</h2>
@@ -66,6 +77,10 @@ function Signup() {
       />
 
     </form>
+
+
+  </div>
+  </div>
   )
 
 }
