@@ -16,25 +16,17 @@ class User (db.Model, SerializerMixin):
     __tablename__  = 'users_table'
 
     id = db.Column(db.Integer, primary_key=True)
-    # is_seller = db.Column(db.Boolean, nullable=False)
-    # cc_numbers = db.Column(db.Integer, unique=True) 
-    # cc_pin = db.Column(db.Integer, unique=True) 
     first_name = db.Column(db.String, nullable=False)
     last_name = db.Column(db.String, nullable=False)
     username = db.Column(db.String, unique=True, nullable=False)
-    # address = db.Column(db.String, nullable=False)
     _hashed_password = db.Column(db.String)
-    # email = db.Column(db.String, nullable=False)
 
     carts = db.relationship('Cart', back_populates='user')
-
     items = db.relationship('Item', back_populates='seller')
-
-
     comments = db.relationship('Comment', back_populates='user')
 
-    purchased_items = association_proxy('carts', 'items')
-    serialize_rules = ('-carts.user', '-comments.users', '-items.carts',)
+    # purchased_items = association_proxy('carts', 'items')
+    serialize_rules = ('-carts.user', '-items.seller', '-comments.user')
 
 
 class Item(db.Model, SerializerMixin):
@@ -45,41 +37,36 @@ class Item(db.Model, SerializerMixin):
     item_img = db.Column(db.String, nullable=False)
     category = db.Column(db.String, nullable=False)
     description = db.Column(db.String)
-    # is_sold_out = db.Column(db.Boolean, nullable=False)
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     price = db.Column(db.Integer, nullable=False)
-    # page_views = db.Column(db.Integer, server_default=None) V2
     inventory = db.Column(db.Integer, nullable=False)
-
-    cart_id = db.Column(db.Integer, db.ForeignKey('carts_table.id'))
+    # page_views = db.Column(db.Integer, server_default=None) V2
     seller_id = db.Column(db.Integer, db.ForeignKey('users_table.id'))
 
-    cart = db.relationship('Cart', back_populates='items')
     seller = db.relationship('User', back_populates='items')
     comments = db.relationship('Comment', back_populates='item')
+    carts = db.relationship('Cart', back_populates='items')
 
-    buyers = association_proxy('cart', 'user')
-    serialize_rules = ('-carts.item', '-comments.items', '-users.carts',)
+    # buyers = association_proxy('cart', 'user')
+    serialize_rules = ('-seller.items', '-comments.item', '-carts.items')
 
 
 class Cart(db.Model, SerializerMixin):
     __tablename__ = 'carts_table'
-
+    # cart is a joiner table between users and items
     id = db.Column(db.Integer, primary_key=True)
-
-    price_sold = db.Column(db.Integer )
-
-    item_id = db.Column(db.Integer, db.ForeignKey('items_table.id'))
-    user_id = db.Column(db.Integer, db.ForeignKey('users_table.id'))
     price_sold = db.Column(db.Integer)
-
-    quantity = db.Column(db.Integer)
+    # this is a forgeign key to the items table
+    item_id = db.Column(db.Integer, db.ForeignKey('items_table.id'))
+    # this is a forgeign key to the user table
+    user_id = db.Column(db.Integer, db.ForeignKey('users_table.id'))
     sold_at = db.Column(db.DateTime, server_default=db.func.now())
 
     user = db.relationship("User", back_populates="carts")
-    items = db.relationship("Item", back_populates="cart")
+    items = db.relationship("Item", back_populates="carts")
 
-    serialize_rules = ('-user.carts', '-item.carts',)
+    serialize_rules = ('-user.carts', '-items.carts')
+
 
 class Comment(db.Model, SerializerMixin):
     __tablename__ = 'comments_table'
@@ -92,11 +79,7 @@ class Comment(db.Model, SerializerMixin):
     item_id = db.Column(db.Integer, db.ForeignKey('items_table.id'), nullable=False)
 
     user = db.relationship("User", back_populates="comments")
-
-    serialize_rules = ('-user.comments',)
-
-
     user = db.relationship('User', back_populates='comments')
     item = db.relationship('Item', back_populates='comments')
 
-    serialize_rules = ('-user.comments',)
+    serialize_rules = ('-user.comments', '-item.comments')

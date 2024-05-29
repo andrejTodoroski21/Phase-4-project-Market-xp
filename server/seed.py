@@ -2,7 +2,7 @@
 
 from app import app
 
-from models import db, Item, User, Cart, Comment
+from models import db, Item, User, Comment
 
 from faker import Faker
 
@@ -14,7 +14,7 @@ if __name__ == '__main__':
 
         Item.query.delete()
         User.query.delete()
-        Cart.query.delete()
+        # Cart.query.delete()
         Comment.query.delete()
 
 

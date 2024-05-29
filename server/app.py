@@ -7,7 +7,7 @@ from flask_cors import CORS
 from flask_bcrypt import Bcrypt
 
 
-from models import db, User, Item, Cart, Comment
+from models import db, User, Item, Comment #, Cart
 
 app = Flask(__name__)
 app.secret_key = os.environ.get('SECRET_KEY')
