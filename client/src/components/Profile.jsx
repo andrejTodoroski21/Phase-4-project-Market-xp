@@ -17,7 +17,8 @@ function Profile() {
 
                     </div>
                     <div class="window-body">
-                        <p>blah blah blah</p>
+                        <p>Your listings</p>
+                        <p>Your Orders</p>
                     </div>
 
                 </div>
