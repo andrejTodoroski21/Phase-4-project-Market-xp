@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 
 from app import app
+
 from models import db, Item, User, Cart, Comment
+
 from faker import Faker
 
 faker = Faker()
@@ -15,13 +17,7 @@ if __name__ == '__main__':
         Cart.query.delete()
         Comment.query.delete()
 
-        # print("creating Orders...")
-        # nintendo_64 = Cart(price_sold= 120)
-        # nintendo_3ds = Cart(price_sold=80) 
-        # eevee_plushie = Cart(price_sold = 30)
-        # cd_player = Cart(price_sold=70)
-        # carhartt_jacket = Cart(price_sold=110)
-        # carts = [nintendo_3ds, nintendo_64, eevee_plushie, cd_player, carhartt_jacket]
+
 
         print("creating Users")
         andrej = User(first_name="Andrej", last_name="Todoroski", username = "Monke")
