@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 
 function NewListing() {
-  const { setCurrentUser } = useOutletContext()
+  const { currentUser, setCurrentUser } = useOutletContext()
   // STATE //
 
   const [item_name, setItemName] = useState('')
@@ -16,15 +16,18 @@ function NewListing() {
   const navigate = useNavigate();
 
 
+
   // EVENTS //
 
   function handleSubmit(e) {
     e.preventDefault()
 
+    const seller_id = currentUser.id;
+
     fetch('/api/items', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-      body: JSON.stringify({ item_name, price, item_img, category, description, inventory})
+      body: JSON.stringify({ item_name, price, item_img, category, description, inventory, seller_id})
     })
     .then(response => {
       if (response.ok) {
