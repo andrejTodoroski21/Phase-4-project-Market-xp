@@ -67,7 +67,7 @@ function NewListing() {
     <div class="field-row">
         <label for="price">Price</label>
         <input id="price" type="text" onChange={e => setPrice(e.target.value)}
-      value={item_name}/>
+      value={price}/>
     </div>
 
     <div class="field-row">
@@ -83,7 +83,7 @@ function NewListing() {
     </div>
 
     <div class="field-row">
-        <label for="description">Category</label>
+        <label for="description">Description</label>
         <input id="description" type="text" onChange={e => setDescription(e.target.value)}
       value={description}/>
     </div>
