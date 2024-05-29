@@ -45,7 +45,8 @@ if __name__ == '__main__':
             Comment(user_id=andrej.id, content="Love this 3DS, the 3D effect is amazing.", item_id=nintendo_3ds.id),
             Comment(user_id=dan.id, content="Super cute plushie, perfect for any Pokemon fan.", item_id=eevee_plushie.id),
             Comment(user_id=dan.id, content="Classic Walkman, takes me back to the good old days.", item_id=cd_player.id),
-            Comment(user_id=will.id, content="This jacket is tough and stylish, perfect for outdoor activities.", item_id=carhartt_jacket.id)
+            Comment(user_id=andrej.id, content="This jacket is tough and stylish, perfect for outdoor activities.", item_id=carhartt_jacket.id),
+            Comment(user_id=will.id, content="drippy as fuck", item_id=carhartt_jacket.id)
         ]
 
         db.session.add_all(comments)

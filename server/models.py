@@ -48,7 +48,7 @@ class Item(db.Model, SerializerMixin):
     carts = db.relationship('Cart', back_populates='items', cascade='all, delete-orphan')
 
     buyers = association_proxy('cart', 'user')
-    serialize_rules = ('-seller.items', '-comments.item', '-carts.items')
+    serialize_rules = ('-seller', '-comments', '-carts')
 
 
 class Cart(db.Model, SerializerMixin):
