@@ -97,6 +97,15 @@ def post_items():
 def get_comments():
     return [c.to_dict() for c in Comment.query.all()], 200
 
+@app.get('/api/items/<int:item_id>/comments')
+def get_comments_by_item_id(item_id):
+    item = Item.query.get(item_id)
+    if item:
+        comments = Comment.query.filter_by(item_id=item_id).all()
+        return [comment.to_dict() for comment in comments], 200
+    else:
+        return {'error': 'Item not found'}, 404
+
 # POST COMMENTS
 @app.post('/api/comments')
 def post_comments():
