@@ -7,7 +7,7 @@ from flask_cors import CORS
 from flask_bcrypt import Bcrypt
 
 
-from models import db, User, Item, Comment #, Cart
+from models import db, User, Item, Comment, Cart
 
 app = Flask(__name__)
 app.secret_key = os.environ.get('SECRET_KEY')
@@ -89,8 +89,30 @@ def post_items():
     except Exception as e:
         return jsonify( {'error': str(e)} ), 406
 
+@app.patch('/api/items/<int:id>')
+def patch_items(id):
+        items = db.session.query(Item.id == id).first()
+        if items:
+            items.item_name = request.json.get('title')
+            items.description = request.json.get('description')
+            items.price = request.json.get('price')
+        else:
+            return {'error': 'Not found'}, 404
+
 
 # DELETE AND PATCH
+@app.delete('/api/items/<int:id>')
+def delete_items(id):
+    try:
+        item = Item.query.where(Item.id == id).first()
+        if item:
+            db.session.delete(item)
+            db.session.commit()
+            return {}, 204
+        else:
+            return {'error': 'Not found'}, 404
+    except Exception as e:
+        return jsonify( {'error': str(e)} ), 406
 
 # GET COMMENTS
 @app.get('/api/comments')
@@ -118,21 +140,6 @@ def post_comments():
         return jsonify( new_comment.to_dict() ), 201
     except Exception as e:
         return jsonify( {'error': str(e)} ), 406
-
-
-# PATCH AND DELETE COMMENTS
-@app.patch('/api/comments/<int:id>')
-def patch_comments(id):
-    try:
-        comment = Comment.query.where(Comment.id == id).first()
-        if comment:
-            comment.comment = request.json.get('comment')
-            db.session.commit()
-            return comment.to_dict(), 200
-        else:
-            return {'error': 'Not found'}, 404
-    except Exception as e:
-        return {'error': str(e)}, 406
 
 @app.delete('/api/comments/<int:id>')
 def delete_comments(id):
