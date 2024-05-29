@@ -6,7 +6,6 @@ import icon from '../assets/icon-revised.png'
 function App() {
 
   const [currentUser, setCurrentUser] = useState(null);
-
   const [currentTime, setCurrentTime] = useState(new Date());
 
   useEffect(() => {
