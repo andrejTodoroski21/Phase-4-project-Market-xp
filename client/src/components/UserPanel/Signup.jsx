@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import { useOutletContext } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
+
 
 function Signup() {
   const { setCurrentUser } = useOutletContext()
@@ -9,6 +11,8 @@ function Signup() {
   const [_hashed_password, setPassword] = useState('')
   const [first_name, setFirstName] = useState('')
   const [last_name, setLastName] = useState('')
+  const navigate = useNavigate();
+
 
   // EVENTS //
 
@@ -23,7 +27,10 @@ function Signup() {
     .then(response => {
       if (response.ok) {
         response.json()
-        .then( newUser => setCurrentUser(newUser) )
+        .then( newUser => {
+          setCurrentUser(newUser) 
+          navigate('/');
+        });
       } else {
         alert("Signup unsuccessful")
       }

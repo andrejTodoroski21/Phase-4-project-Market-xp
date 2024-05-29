@@ -25,7 +25,7 @@ function Login() {
       if (res.ok) {
         res.json().then(user => {
           setCurrentUser(user);
-          navigate('/home'); // Navigate to home on successful login
+          navigate('/'); // Navigate to home on successful login
         });
       } else {
         alert('Invalid username or password');
