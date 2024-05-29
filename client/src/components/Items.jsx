@@ -4,6 +4,8 @@ import Comments from './Comments';
 function Items({ product }) {
     const [comments, setComments] = useState([]);
     const [showDetails, setShowDetails] = useState(true);
+    const [commentText, setCommentText] = useState('');
+    const [showCommentForm, setShowCommentForm] = useState(false);
 
     const fetchComments = () => {
         fetch(`/api/items/${product.id}/comments`)
@@ -23,6 +25,34 @@ function Items({ product }) {
             fetchComments();
         }
         setShowDetails(prevShowDetails => !prevShowDetails);
+    };
+
+    const handleCommentChange = (e) => {
+        setCommentText(e.target.value);
+    };
+
+    const handleCommentSubmit = () => {
+        fetch('/api/comments', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                content: commentText,
+                item_id: product.id,
+            }),
+        })
+        .then(res => res.json())
+        .then(newComment => {
+            setComments([...comments, newComment]);
+            setCommentText('');
+            setShowCommentForm(false);
+        })
+        .catch(error => console.error('Error adding comment:', error));
+    };
+
+    const toggleCommentForm = () => {
+        setShowCommentForm(prev => !prev);
     };
 
     return (
@@ -48,6 +78,17 @@ function Items({ product }) {
                     <>
                         <h3>Comments:</h3>
                         {comments.map(comment => <Comments key={comment.id} comment={comment} />)}
+                        <div className='comment-buttons'>
+                            <button onClick={showCommentForm ? handleCommentSubmit : toggleCommentForm}>
+                                {showCommentForm ? 'Submit' : 'Add a Comment'}
+                            </button>
+                            {showCommentForm && (
+                                <div>
+                                    <textarea className="comment-box" value={commentText} onChange={handleCommentChange} />
+                                </div>
+                            )}
+                        </div>
+                        <br></br>
                     </>
                 )}
             </div>
