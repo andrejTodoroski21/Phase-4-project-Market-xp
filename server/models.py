@@ -21,9 +21,9 @@ class User (db.Model, SerializerMixin):
     username = db.Column(db.String, unique=True, nullable=False)
     _hashed_password = db.Column(db.String)
 
-    carts = db.relationship('Cart', back_populates='user')
-    items = db.relationship('Item', back_populates='seller')
-    comments = db.relationship('Comment', back_populates='user')
+    carts = db.relationship('Cart', back_populates='user', cascade='all, delete-orphan')
+    items = db.relationship('Item', back_populates='seller', cascade='all, delete-orphan')
+    comments = db.relationship('Comment', back_populates='user', cascade='all, delete-orphan')
 
     purchased_items = association_proxy('carts', 'item')
     serialize_rules = ('-carts.user', '-items.seller', '-comments.user')
@@ -44,8 +44,8 @@ class Item(db.Model, SerializerMixin):
     seller_id = db.Column(db.Integer, db.ForeignKey('users_table.id'))
 
     seller = db.relationship('User', back_populates='items')
-    comments = db.relationship('Comment', back_populates='item')
-    carts = db.relationship('Cart', back_populates='items')
+    comments = db.relationship('Comment', back_populates='item', cascade='all, delete-orphan')
+    carts = db.relationship('Cart', back_populates='items', cascade='all, delete-orphan')
 
     buyers = association_proxy('cart', 'user')
     serialize_rules = ('-seller.items', '-comments.item', '-carts.items')
@@ -78,7 +78,6 @@ class Comment(db.Model, SerializerMixin):
     user_id = db.Column(db.Integer, db.ForeignKey('users_table.id'), nullable=False)
     item_id = db.Column(db.Integer, db.ForeignKey('items_table.id'), nullable=False)
 
-    user = db.relationship("User", back_populates="comments")
     user = db.relationship('User', back_populates='comments')
     item = db.relationship('Item', back_populates='comments')
 
