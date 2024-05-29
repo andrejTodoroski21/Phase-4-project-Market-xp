@@ -26,7 +26,7 @@ const routes = [
       },
       {
         path: "listings",
-        element: <Listings />,
+        element: <Listings />
       },
       {
         path: "profile",
