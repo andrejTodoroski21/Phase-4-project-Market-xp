@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Comments from './Comments';
 
 function Items({ product }) {
@@ -12,11 +12,17 @@ function Items({ product }) {
             .catch(error => console.error('Error fetching comments:', error));
     };
 
+    useEffect(() => {
+        if (!showDetails) {
+            fetchComments();
+        }
+    }, [showDetails]);
+
     const toggleDetails = () => {
         if (!showDetails) {
             fetchComments();
         }
-        setShowDetails(prevState => !prevState);
+        setShowDetails(prevShowDetails => !prevShowDetails);
     };
 
     return (
