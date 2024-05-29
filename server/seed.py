@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 
 from app import app
-from models import db, Item, User, Cart
+
+from models import db, Item, User, Cart, Comment
+
 from faker import Faker
 
 faker = Faker()
@@ -12,21 +14,19 @@ if __name__ == '__main__':
 
         Item.query.delete()
         User.query.delete()
-        Item.query.delete()
+        Cart.query.delete()
+        Comment.query.delete()
 
-        print("creating Orders...")
-        nintendo_64 = Cart(price_sold= 120)
-        nintendo_3ds = Cart(price_sold=80) 
-        eevee_plushie = Cart(price_sold = 30)
-        cd_player = Cart(price_sold=70)
-        carhartt_jacket = Cart(price_sold=110)
-        carts = [nintendo_3ds, nintendo_64, eevee_plushie, cd_player, carhartt_jacket]
+
 
         print("creating Users")
         andrej = User(first_name="Andrej", last_name="Todoroski", username = "Monke")
         dan = User(first_name="Dan", last_name="Castanheira", username = "Dannycast")
         will = User(first_name="Will", last_name="Metzler", username = "Willymet")
         users = [will, dan, andrej]
+
+        db.session.add_all(users)
+        db.session.commit()
 
         print("creating Items")
         nintendo_64 = Item(item_name = "N64", item_img = "https://i5.walmartimages.com/seo/Restored-Nintendo-64-N64-System-Video-Game-Console-Refurbished_4d39d2ad-33a4-46df-95d8-c68110826631_2.ed4f595c99d114de02b77d9fdf70d57f.jpeg", category = "console", description ="a super old ancient console where you can play some of the oldest games ever made", price = 120, inventory = 2)
@@ -35,9 +35,22 @@ if __name__ == '__main__':
         cd_player= Item(item_name = "Sony Walkman", item_img = "https://i.ebayimg.com/images/g/xcAAAOSwr5tg6PCD/s-l1200.webp", category = "electronics",description = "classic walkman player if youre looking to collect a relic", price = 70, inventory = 5)
         carhartt_jacket = Item(item_name = "Carhartt Jacket", item_img = "https://i.ebayimg.com/images/g/BcUAAOSw2tBj6rHq/s-l1200.webp", category = "clothing", description = "a popular reliable jacket looks better the more worn out it is",price = 110, inventory = 8)
         items = [nintendo_3ds, nintendo_64, eevee_plushie, cd_player, carhartt_jacket]
-        db.session.add_all(carts)
-        db.session.add_all(users)
+
         db.session.add_all(items)
+        db.session.commit()
+
+        print("creating comments")
+        comments = [
+            Comment(user_id=will.id, content="Great console, brings back so many memories!", item_id=nintendo_64.id),
+            Comment(user_id=andrej.id, content="Love this 3DS, the 3D effect is amazing.", item_id=nintendo_3ds.id),
+            Comment(user_id=dan.id, content="Super cute plushie, perfect for any Pokemon fan.", item_id=eevee_plushie.id),
+            Comment(user_id=dan.id, content="Classic Walkman, takes me back to the good old days.", item_id=cd_player.id),
+            Comment(user_id=will.id, content="This jacket is tough and stylish, perfect for outdoor activities.", item_id=carhartt_jacket.id)
+        ]
+
+        db.session.add_all(comments)
+        # db.session.add_all(carts)
+        
         db.session.commit()
 
         print("Seeding complete!")
