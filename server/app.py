@@ -145,13 +145,13 @@ def post_comments():
 @app.delete('/api/comments/<int:id>')
 def delete_comments(id):
     try:
-        comment = Comment.query.where(Comment.id == id).first()
+        comment = Comment.query.get(id)
         if comment:
             db.session.delete(comment)
             db.session.commit()
             return {}, 204
         else:
-            return {'error': 'Not found'}, 404
+            return {'error': 'Comment not found'}, 404
     except Exception as e:
         return {'error': str(e)}, 406
 

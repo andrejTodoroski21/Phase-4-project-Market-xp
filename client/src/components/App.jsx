@@ -21,7 +21,7 @@ function App() {
       <span className='header'>
         <div style={{width: '30%'}} id="title-window" className="window">
             <div style={{height: '30px'}} class="title-bar">
-            <h3 class="title-bar-text">WEBSITE TITLE</h3>
+            <h3 class="title-bar-text">Market XP</h3>
 
               <div class="title-bar-controls">
                 <button aria-label="Minimize"></button>

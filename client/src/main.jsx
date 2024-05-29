@@ -7,12 +7,12 @@ import Profile from './components/Profile.jsx'
 import About from './components/About.jsx'
 import Login from './components/UserPanel/Login.jsx'
 import Signup from './components/UserPanel/Signup.jsx'
-
+import NewListing from './components/NewListing.jsx'
 
 import './index.css'
 
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import NewListing from './components/NewListing.jsx'
+
 
 //ROUTES
 const routes = [
