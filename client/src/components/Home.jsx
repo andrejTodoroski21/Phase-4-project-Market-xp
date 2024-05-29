@@ -8,7 +8,6 @@ function Home () {
     return (
 
     <div>
-         <h3>Welcome, {currentUser ? currentUser.username : 'Guest'}!</h3>
         <div className='icon-container'>
             <Link to="/listings"><img className='app-icon' src={myComputer} /></Link>
             <p className='icon-text'>Listings</p>
@@ -23,7 +22,26 @@ function Home () {
             <Link to="/about"><img className='app-icon' src={aboutIcon} /></Link>
             <p className='icon-text' >About</p>
         </div>
-     </div>
+            <div style={{marginLeft:'70px'}}>
+                <div style={{width: '30%'}} id="title-window" className="window">
+                    <div style={{height: '30px'}} class="title-bar">
+                    <h3 style={{color: 'white'}}>Welcome, {currentUser ? currentUser.username : 'Guest'}!</h3>
+
+                    <div class="title-bar-controls">
+                        <button aria-label="Minimize"></button>
+                        <button aria-label="Maximize"></button>
+                        <button aria-label="Close"></button>
+                    </div>
+
+                    </div>
+
+                <div class="window-body">
+                    <p>Enjoy browsing, selling, and discussing your old crap!</p>
+                </div>
+                
+                </div>
+        </div>
+    </div>
     )
 }
 
