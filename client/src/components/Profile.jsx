@@ -6,6 +6,7 @@ function Profile() {
     const {setCurrentUser}=useOutletContext()
 
     const [items, setItems] = useState([]);
+    const [cart, setCart] = useState([]);
 
     useEffect(() => {
       fetch('/api/get-session')
@@ -22,6 +23,12 @@ function Profile() {
             .then(res => res.json())
             .then(data => setItems(data));
     }, []);
+
+    useEffect(() => {
+      fetch('/api/cart')
+          .then(res => res.json())
+          .then(data => setCart(data));
+  }, []);
 
     return (
         <>
@@ -66,15 +73,13 @@ function Profile() {
       {currentUser && (
           <div>
             <h3>My Orders:</h3>
-            {items
-              .filter(items => items.buyer_id === currentUser.id) 
-              .map(item => (
+            {cart
+              .filter(cart => cart.buyer_id === currentUser.id) 
+              .map(cart => (
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
                   <div className="my-listing">
-                    <h4>{item.item_name}</h4>
-                    <img width='250px' src={item.item_img} alt={item.item_name} />
-                    <h5>{item.description}</h5>
-                    <p>{item.category}</p>
+                    <h4>{cart.item_name}</h4>
+                    <img width='250px' src={cart.item_img} alt={cart.item_name} />
                   </div>
                   <br></br>
                 </div>
