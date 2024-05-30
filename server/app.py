@@ -214,12 +214,24 @@ def remove_from_cart(item_id):
         return jsonify({'error': str(e)}), 406
 
 @app.post('/api/items/<int:id>/buy')
-# @login_required
-def buy_item(id):
+def buy_now(id):
     item = Item.query.get(id)
     if not item:
         return jsonify({'error': 'Item not found'}), 404
-    
+    if item.inventory <=0:
+        return jsonify({'error': 'Item out of stock'}), 400
+
+    item.inventory -= 1
+    purchase = Cart(
+        price_sold=item.price,
+        item_id=item.id,
+        user_id=session.get('user_id'),
+        sold_at=db.func.now()
+        )
+    db.session.add(purchase)
+    db.session.commit()
+
+    return jsonify({'message': 'Item purchased successfully'}), 200    
     if item.inventory <= 0:
         return jsonify({'error': 'Item out of stock'}), 400
 
