@@ -61,7 +61,7 @@ function Signup() {
       placeholder='username'
       />
 
-      <input type="text"
+      <input type="password"
       onChange={e => setPassword(e.target.value)}
       value={_hashed_password}
       placeholder='password'
