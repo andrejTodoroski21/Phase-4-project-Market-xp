@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 7e93eb619881
+Revision ID: 0640ee9581c6
 Revises: 
-Create Date: 2024-05-29 16:16:57.482708
+Create Date: 2024-05-30 10:39:50.440691
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '7e93eb619881'
+revision = '0640ee9581c6'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -37,12 +37,14 @@ def upgrade():
     sa.Column('price', sa.Integer(), nullable=False),
     sa.Column('inventory', sa.Integer(), nullable=False),
     sa.Column('seller_id', sa.Integer(), nullable=True),
+    sa.Column('buyer_id', sa.Integer(), nullable=True),
+    sa.ForeignKeyConstraint(['buyer_id'], ['users_table.id'], name=op.f('fk_items_table_buyer_id_users_table')),
     sa.ForeignKeyConstraint(['seller_id'], ['users_table.id'], name=op.f('fk_items_table_seller_id_users_table')),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('carts_table',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('price_sold', sa.Integer(), nullable=True),
+    sa.Column('price_sold', sa.Integer(), nullable=False),
     sa.Column('item_id', sa.Integer(), nullable=True),
     sa.Column('user_id', sa.Integer(), nullable=True),
     sa.Column('sold_at', sa.DateTime(), server_default=sa.text('(CURRENT_TIMESTAMP)'), nullable=True),

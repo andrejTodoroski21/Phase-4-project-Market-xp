@@ -10,10 +10,8 @@ metadata = MetaData(naming_convention={
 
 db = SQLAlchemy(metadata=metadata)
 
-# write your models here!
-
-class User (db.Model, SerializerMixin):
-    __tablename__  = 'users_table'
+class User(db.Model, SerializerMixin):
+    __tablename__ = 'users_table'
 
     id = db.Column(db.Integer, primary_key=True)
     first_name = db.Column(db.String, nullable=False)
@@ -21,13 +19,11 @@ class User (db.Model, SerializerMixin):
     username = db.Column(db.String, unique=True, nullable=False)
     _hashed_password = db.Column(db.String)
 
-    carts = db.relationship('Cart', back_populates='user', cascade='all, delete-orphan')
-    items = db.relationship('Item', back_populates='seller', cascade='all, delete-orphan')
+    purchased_items = db.relationship('Cart', back_populates='user', cascade='all, delete-orphan')
+    items = db.relationship('Item', foreign_keys='Item.seller_id', back_populates='seller', cascade='all, delete-orphan')
     comments = db.relationship('Comment', back_populates='user', cascade='all, delete-orphan')
 
-    purchased_items = association_proxy('carts', 'item')
-    serialize_rules = ('-carts.user', '-items.seller', '-comments.user')
-
+    serialize_rules = ('-purchased_items.user', '-items.seller', '-comments.user')
 
 class Item(db.Model, SerializerMixin):
     __tablename__ = 'items_table'
@@ -40,33 +36,29 @@ class Item(db.Model, SerializerMixin):
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     price = db.Column(db.Integer, nullable=False)
     inventory = db.Column(db.Integer, nullable=False)
-    # page_views = db.Column(db.Integer, server_default=None) V2
     seller_id = db.Column(db.Integer, db.ForeignKey('users_table.id'))
+    buyer_id = db.Column(db.Integer, db.ForeignKey('users_table.id'))
 
-    seller = db.relationship('User', back_populates='items')
+    seller = db.relationship('User', foreign_keys=[seller_id], back_populates='items')
+    buyer = db.relationship('User', foreign_keys=[buyer_id])
     comments = db.relationship('Comment', back_populates='item', cascade='all, delete-orphan')
-    carts = db.relationship('Cart', back_populates='items', cascade='all, delete-orphan')
+    purchases = db.relationship('Cart', back_populates='item', cascade='all, delete-orphan')
 
-    buyers = association_proxy('cart', 'user')
-    serialize_rules = ('-seller', '-comments', '-carts')
-
+    serialize_rules = ('-seller', '-comments', '-purchases')
 
 class Cart(db.Model, SerializerMixin):
     __tablename__ = 'carts_table'
-    # cart is a joiner table between users and items
+
     id = db.Column(db.Integer, primary_key=True)
-    price_sold = db.Column(db.Integer)
-    # this is a forgeign key to the items table
+    price_sold = db.Column(db.Integer, nullable=False)
     item_id = db.Column(db.Integer, db.ForeignKey('items_table.id'))
-    # this is a forgeign key to the user table
     user_id = db.Column(db.Integer, db.ForeignKey('users_table.id'))
     sold_at = db.Column(db.DateTime, server_default=db.func.now())
 
-    user = db.relationship("User", back_populates="carts")
-    items = db.relationship("Item", back_populates="carts")
+    user = db.relationship('User', back_populates='purchased_items')
+    item = db.relationship('Item', back_populates='purchases')
 
-    serialize_rules = ('-user.carts', '-items.carts')
-
+    serialize_rules = ('-user.purchased_items', '-item.purchases')
 
 class Comment(db.Model, SerializerMixin):
     __tablename__ = 'comments_table'
