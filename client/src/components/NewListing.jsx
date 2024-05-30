@@ -46,7 +46,7 @@ function NewListing() {
 
   return (
 
-    <div className="window" style={{width: 300 }}>
+    <div className="window" style={{ marginLeft: '5em', width: 300 }}>
     <div className="title-bar">
       <div className="title-bar-text">Sign up</div>
       <div className="title-bar-controls">

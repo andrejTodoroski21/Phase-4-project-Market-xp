@@ -9,6 +9,16 @@ function App() {
   const [currentTime, setCurrentTime] = useState(new Date());
 
   useEffect(() => {
+    fetch('/api/get-session')
+    .then(response => {
+      if (response.status === 200) {
+        response.json()
+        .then(loggedInUser => setCurrentUser(loggedInUser))
+      }
+    })
+  }, []);
+
+  useEffect(() => {
     const intervalId = setInterval(() => {
       setCurrentTime(new Date());
     }, 1000);
