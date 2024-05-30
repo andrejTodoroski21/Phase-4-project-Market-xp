@@ -19,7 +19,12 @@ class User(db.Model, SerializerMixin):
     username = db.Column(db.String, unique=True, nullable=False)
     _hashed_password = db.Column(db.String)
 
+    # there is a many to many relationship between users and items with cart being the join table.
+    # ther is also a many to one relationship between users and comments.
+    # the cascade is used to delete everthing 
     purchased_items = db.relationship('Cart', back_populates='user', cascade='all, delete-orphan')
+    # means that if an Item object is disassociated from its parent (e.g., the seller is deleted or the relationship is broken),
+    # it will be automatically deleted from the database.
     items = db.relationship('Item', foreign_keys='Item.seller_id', back_populates='seller', cascade='all, delete-orphan')
     comments = db.relationship('Comment', back_populates='user', cascade='all, delete-orphan')
 
