@@ -5,6 +5,13 @@ import aboutIcon from '../assets/High-Res_XP_Icons/Internet Properties.ico'
 
 function Home () {
     const{currentUser} =useOutletContext()
+    const{setCurrentUser} =useOutletContext()
+
+    function handleLogout() {
+        setCurrentUser(null)
+        fetch('/api/logout', { method: 'DELETE' })
+    }
+
     return (
 
     <div>
@@ -37,6 +44,7 @@ function Home () {
 
                 <div class="window-body">
                     <p>Enjoy browsing, selling, and discussing your old crap!</p>
+                    {currentUser && <button onClick={handleLogout}>Logout</button>}
                 </div>
                 
                 </div>
