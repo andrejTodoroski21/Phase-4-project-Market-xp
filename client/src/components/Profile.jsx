@@ -59,6 +59,7 @@ function Profile() {
                 </div>
               ))}
           </div>
+
           
         )}
               <br />
@@ -80,6 +81,7 @@ function Profile() {
               ))}
           </div>
           
+
         )}
             </div>
                     </div>
