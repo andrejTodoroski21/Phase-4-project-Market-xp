@@ -67,6 +67,21 @@ function Items({ product, currentUser }) {
         });
     };
 
+    const handleBuy = () => {
+            fetch(`/api/items/${product.id}/buy`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    item_id: product.id,
+                    buyer_id: currentUser.id
+                }),
+            })
+            .then(res => res.json())
+
+        };
+
     return (
         <div style={{ width: 400, display: "flex", flexDirection: "column", alignItems: "center" }} id="listing_window" className="window">
             <div style={{ width: 390, height: 27, color: 'white' }} className="title-bar">
@@ -105,7 +120,7 @@ function Items({ product, currentUser }) {
                 )}
             </div>
             <div className="buttons">
-                <button onClick={() => console.log('Buy clicked for item:', product.id)}>Buy Item</button>
+                <button onClick={handleBuy}>Buy Item</button>
                 &nbsp;&nbsp;&nbsp;&nbsp;
                 <button onClick={toggleDetails}>{showDetails ? 'Show Comments' : 'Show Details'}</button>
                 <br /><br />
