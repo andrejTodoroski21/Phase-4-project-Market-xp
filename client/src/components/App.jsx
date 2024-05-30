@@ -5,8 +5,12 @@ import icon from '../assets/icon-revised.png'
 
 function App() {
 
+  // STATE //
+
   const [currentUser, setCurrentUser] = useState(null);
   const [currentTime, setCurrentTime] = useState(new Date());
+
+  // FETCH SESSION FOR LOGIN
 
   useEffect(() => {
     fetch('/api/get-session')
@@ -17,6 +21,8 @@ function App() {
       }
     })
   }, []);
+
+  // SET DATE USE EFFECT 
 
   useEffect(() => {
     const intervalId = setInterval(() => {
