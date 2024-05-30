@@ -59,6 +59,29 @@ function Profile() {
                 </div>
               ))}
           </div>
+
+          
+        )}
+              <br />
+      {currentUser && (
+          <div>
+            <h3>My Orders:</h3>
+            {items
+              .filter(items => items.buyer_id === currentUser.id) 
+              .map(item => (
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+                  <div className="my-listing">
+                    <h4>{item.item_name}</h4>
+                    <img width='250px' src={item.item_img} alt={item.item_name} />
+                    <h5>{item.description}</h5>
+                    <p>{item.category}</p>
+                  </div>
+                  <br></br>
+                </div>
+              ))}
+          </div>
+          
+
         )}
             </div>
                     </div>
