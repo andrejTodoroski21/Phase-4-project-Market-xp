@@ -2,10 +2,14 @@ import React, { useState, useEffect } from 'react';
 import Comments from './Comments';
 
 function Items({ product, currentUser }) {
+
+    // STATE AND CONTEXT
     const [comments, setComments] = useState([]);
     const [showDetails, setShowDetails] = useState(true);
     const [commentText, setCommentText] = useState('');
     const [showCommentForm, setShowCommentForm] = useState(false);
+
+    // FETCH COMMENTS
 
     const fetchComments = () => {
         fetch(`/api/items/${product.id}/comments`)
@@ -18,6 +22,7 @@ function Items({ product, currentUser }) {
         fetchComments();
     }, []); 
 
+    // TOGGLE BUTTON 
     const toggleDetails = () => {
         setShowDetails(prevShowDetails => !prevShowDetails);
     };
@@ -25,6 +30,8 @@ function Items({ product, currentUser }) {
     const handleCommentChange = (e) => {
         setCommentText(e.target.value);
     };
+
+    //POST REQUEST FOR COMMENTS
 
     const handleCommentSubmit = () => {
         fetch('/api/comments', {
@@ -49,7 +56,9 @@ function Items({ product, currentUser }) {
     const toggleCommentForm = () => {
         setShowCommentForm(prev => !prev);
     };
+    
 
+    //DELETE REQUEST FOR COMMENTS
     const deleteComment = (commentId) => {
         fetch(`/api/comments/${commentId}`, {
             method: 'DELETE'
