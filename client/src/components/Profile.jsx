@@ -2,9 +2,20 @@ import React, {useEffect, useState} from "react";
 import { Link, useOutletContext } from 'react-router-dom'
 function Profile() {
 
-    const{currentUser} =useOutletContext()
+    const{currentUser}=useOutletContext()
+    const {setCurrentUser}=useOutletContext()
 
     const [items, setItems] = useState([]);
+
+    useEffect(() => {
+      fetch('/api/get-session')
+      .then(response => {
+        if (response.status === 200) {
+          response.json()
+          .then(loggedInUser => setCurrentUser(loggedInUser))
+        }
+      })
+    }, []);
 
     useEffect(() => {
         fetch('/api/items')
@@ -31,17 +42,25 @@ function Profile() {
                     <div class="window-body">
     <div>
       <br />
-      <div>
-        {items
-          .filter(items => items.seller_id === currentUser.id) // Filter products by current user's ID
-          .map(item => (
-            <div key={item.id} className="product-item">
-              <h3>{item.item_name}</h3>
-              <img src={item.item_img} alt={item.item_name} />
+      {currentUser && (
+          <div>
+            <h3>My Listings:</h3>
+            {items
+              .filter(items => items.seller_id === currentUser.id) 
+              .map(item => (
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+                  <div className="my-listing">
+                    <h4>{item.item_name}</h4>
+                    <img width='250px' src={item.item_img} alt={item.item_name} />
+                    <h5>{item.description}</h5>
+                    <p>{item.category}</p>
+                  </div>
+                  <br></br>
+                </div>
+              ))}
+          </div>
+        )}
             </div>
-          ))}
-      </div>
-    </div>
                     </div>
 
                 </div>
