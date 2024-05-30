@@ -30,6 +30,8 @@ function Profile() {
           .then(data => setCart(data));
   }, []);
 
+  console.log(cart)
+
     return (
         <>
             <br></br>
@@ -74,12 +76,12 @@ function Profile() {
           <div>
             <h3>My Orders:</h3>
             {cart
-              .filter(cart => cart.buyer_id === currentUser.id) 
+              .filter(cart => cart.user_id === currentUser.id) 
               .map(cart => (
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
                   <div className="my-listing">
-                    <h4>{cart.item_name}</h4>
-                    <img width='250px' src={cart.item_img} alt={cart.item_name} />
+                    <h4>{cart.item.item_name}</h4>
+                    <img width='250px' src={cart.item.item_img} alt={cart.item.item_name} />
                   </div>
                   <br></br>
                 </div>
