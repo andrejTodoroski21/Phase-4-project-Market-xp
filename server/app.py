@@ -213,6 +213,36 @@ def remove_from_cart(item_id):
     except Exception as e:
         return jsonify({'error': str(e)}), 406
 
+# @app.post('/api/items/<int:id>/buy')
+# # @login_required
+# def buy_item(id):
+#     item = Item.query.get(id)
+#     if not item:
+#         return jsonify({'error': 'Item not found'}), 404
+    
+#     if item.inventory <= 0:
+#         return jsonify({'error': 'Item out of stock'}), 400
+
+#     # Update inventory
+#     item.inventory -= 1
+
+#     # Create a new purchase record
+#     purchase = Cart(
+#         price_sold=item.price,
+#         item_id=item.id,
+#         user_id=current_user.id,
+#         sold_at=db.func.now()
+#     )
+#     db.session.add(purchase)
+#     db.session.commit()
+
+#     return jsonify({'message': 'Item purchased successfully'}), 200
+
+# @app.get('/api/profile')
+# def get_purchased_items():
+#     purchased_items = Cart.query.filter_by(user_id=current_user.id).all()
+#     return jsonify([purchase.item.to_dict() for purchase in purchased_items])
+
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)
