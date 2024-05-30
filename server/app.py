@@ -34,42 +34,45 @@ def users_by_id(id):
         return user.to_dict(), 200
     else:
         return {'error': 'Not found'}, 404
+
 # USER SIGNUP 
 @app.post('/api/users')
 def create_user():
     try:
-        # first_name = User(first_name = request.json['first_name'])
-        # last_name = User(last_name = request.json['last_name'])
-        new_user = User(username=request.json['username'], first_name = request.json['first_name'], last_name = request.json['last_name'])
+        new_user = User(username=request.json['username'], first_name=request.json['first_name'], last_name=request.json['last_name'])
         new_user._hashed_password = bcrypt.generate_password_hash(request.json['_hashed_password']).decode('utf-8')
         db.session.add(new_user)
         db.session.commit()
-        session['user_id'] = new_user.id
+        session['user_id'] = new_user.id  # Store the user ID in the session
         return new_user.to_dict(), 201
     except Exception as e:
         return { 'error': str(e) }, 406
+
 # SEE WHICH USER IS LOGGED IN
 @app.get('/api/get-session')
 def get_session():
-    user = User.query.where(User.id == session.get('user_id')).first()
-    if user:
-        return user.to_dict(), 200
-    else:
-        return {}, 204
+    user_id = session.get('user_id')  # Retrieve the user ID from the session
+    if user_id:
+        user = User.query.get(user_id)
+        if user:
+            return user.to_dict(), 200
+    return {}, 204
 
 # LOGIN AND LOGOUT
 @app.post('/api/login')
 def login():
-    user = User.query.where(User.username == request.json.get('user')).first()
-    if user and bcrypt.check_password_hash(user._hashed_password, request.json.get('password')):
-        session['user_id'] = user.id
+    username = request.json.get('user')
+    password = request.json.get('password')
+    user = User.query.filter_by(username=username).first()
+    if user and bcrypt.check_password_hash(user._hashed_password, password):
+        session['user_id'] = user.id  # Store the user ID in the session
         return user.to_dict(), 201
     else:
-        return {'error': 'username or password was not invalid'}, 401
+        return {'error': 'Username or password was invalid'}, 401
 
 @app.delete('/api/logout')
 def logout():
-    session.pop('user_id')
+    session.pop('user_id')  # Remove the user ID from the session on logout
     return {}, 204
 
 # GET LISTINGS

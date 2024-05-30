@@ -25,7 +25,7 @@ function Login() {
       if (res.ok) {
         res.json().then(user => {
           setCurrentUser(user);
-          navigate('/'); // Navigate to home on successful login
+          navigate('/'); 
         });
       } else {
         alert('Invalid username or password');
@@ -38,7 +38,7 @@ function Login() {
   return (
 
 
-  <div className="window" style={{width: 300 }}>
+  <div className="window" style={{marginLeft: '5em',width: 300 }}>
   <div className="title-bar">
     <div className="title-bar-text">Login</div>
     <div className="title-bar-controls">
