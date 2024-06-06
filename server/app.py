@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 import os
-from flask import Flask, request, session, jsonify
+from flask import Flask, request, session, jsonify, render_template
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_cors import CORS
@@ -9,19 +9,28 @@ from flask_bcrypt import Bcrypt
 
 from models import db, User, Item, Comment, Cart
 
-app = Flask(__name__)
+from dotenv import load_dotenv
+load_dotenv()
+
+app = Flask(
+    __name__,
+    static_url_path='',
+    static_folder='../client/dist',
+    template_folder='../client/dist'
+)
 app.secret_key = os.environ.get('SECRET_KEY')
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('POSTGRES_URL')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.json.compact = False
 
 CORS(app)
-
 bcrypt = Bcrypt(app)
-
 migrate = Migrate(app, db)
-
 db.init_app(app)
+
+@app.errorhandler(404)
+def not_found(e):
+    return render_template("index.html")
 
 # this route is used to get the users from the database
 @app.get('/api/users')
